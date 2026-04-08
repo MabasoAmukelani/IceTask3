@@ -1,69 +1,69 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.libraryaccount;
 
-/**
- *
- * @author fazet
- */
 import java.util.Scanner;
+
 public class LibraryAccount {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-    // library account
-    
 
-public class LibraryAccountTask {
-    
-
-    public static void main(String[] args) {
-        
         Scanner input = new Scanner(System.in);
 
-        // ask for name
+        // Ask for account holder name
         System.out.print("Enter account holder name: ");
         String name = input.nextLine();
 
-        BankAccount account = new BankAccount(name);
+        // Ask for membership type
+        System.out.print("Enter membership type: ");
+        String membership = input.nextLine();
 
-        // check VVIP
-        if (account.checkAccountHolderStatus()) {
-            System.out.println("Welcome VVIP " + name.toLowerCase());
+        // Create object
+        BankAccount account = new BankAccount(name, membership);
+
+        // Check membership validity
+        if (account.checkAccountHolderMembership()) {
+            System.out.println("Membership is VALID ");
         } else {
-            System.out.println("Welcome " + name.toLowerCase());
+            System.out.println("Membership is NOT valid ");
         }
 
-       
-        System.out.println("Enter membership type");
-
-        BankAccount acc1 = new BankAccount("John");
-        BankAccount acc2 = new BankAccount("Michael");
-        BankAccount acc3 = new BankAccount("Ann*");
-
-        System.out.println(acc1.accountHolder + " VVIP: " + acc1.checkAccountHolderStatus());
-        System.out.println(acc2.accountHolder + " VVIP: " + acc2.checkAccountHolderStatus());
-        System.out.println(acc3.accountHolder + " VVIP: " + acc3.checkAccountHolderStatus());
+        input.close();
     }
 
-    // make it static so main can use it
-        public static class BankAccount {
+    // BankAccount class
+    static class BankAccount {
 
-        // existing variable
         String accountHolder;
+        String membershipType;
 
-        // constructor
-        public BankAccount(String accountHolder) {
+        // Constructor
+        public BankAccount(String accountHolder, String membershipType) {
             this.accountHolder = accountHolder;
+            this.membershipType = membershipType;
         }
 
-        // boolean method 
-        public boolean checkAccountHolderStatus() {
-            return accountHolder.contains("*") || accountHolder.length() > 6;
+        // Boolean method to validate membership
+        public boolean checkAccountHolderMembership() {
+
+            boolean hasUpperCase = false;
+            boolean hasLowerCase = false;
+            boolean hasDigit = false;
+
+            // Loop through membershipType
+            for (int i = 0; i < membershipType.length(); i++) {
+
+                char ch = membershipType.charAt(i);
+
+                if (Character.isUpperCase(ch)) {
+                    hasUpperCase = true;
+                } else if (Character.isLowerCase(ch)) {
+                    hasLowerCase = true;
+                } else if (Character.isDigit(ch)) {
+                    hasDigit = true;
+                }
+            }
+
+            // Return true only if all conditions are met
+            return hasUpperCase && hasLowerCase && hasDigit;
         }
-    }
     }
 }
